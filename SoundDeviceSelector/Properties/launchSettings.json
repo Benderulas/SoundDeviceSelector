@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SoundDeviceSelector (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "SoundDeviceSelector (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
