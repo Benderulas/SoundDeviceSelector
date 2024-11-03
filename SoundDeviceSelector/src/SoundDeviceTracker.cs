@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 
 namespace SoundDeviceSelector.src
 {
@@ -9,7 +10,7 @@ namespace SoundDeviceSelector.src
 
         public SoundDeviceTracker(string filePath) {
             _filePath = filePath;
-            _tracked_ids = LoadFromFile();
+            _tracked_ids = ReadFormFile();
         }
 
         public void TrackDevice(string deviceId)
@@ -24,7 +25,30 @@ namespace SoundDeviceSelector.src
         }
 
         public bool DeviceTracked(string deviceId) => _tracked_ids.Contains(deviceId);
-        private List<string> LoadFromFile() => throw new System.NotImplementedException();
-        private void SaveToFile() => throw new System.NotImplementedException();
+        private List<string> ReadFormFile()
+        {
+            List<string> trackedIds = [];
+            using (var fileStream = new StreamReader(_filePath))
+            {
+                string line;
+                while ((line = fileStream.ReadLine()) != null)
+                {
+                    trackedIds.Add(line);
+                }
+            }
+
+            return trackedIds;
+        }
+
+        private void SaveToFile()
+        {
+            using (var fileStream = new StreamWriter(_filePath))
+            {
+                foreach (var id in _tracked_ids)
+                {
+                    fileStream.WriteLine(id);
+                }
+            }
+        }
     }
 }
