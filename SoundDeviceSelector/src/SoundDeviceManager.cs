@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AudioSwitcher.AudioApi;
 using AudioSwitcher.AudioApi.CoreAudio;
 
 namespace SoundDeviceSelector.src
@@ -8,7 +9,7 @@ namespace SoundDeviceSelector.src
     {
         private readonly CoreAudioController _audioController = new();
 
-        public ICollection<SoundDevice> GetAllDevices() => _audioController.GetDevices().Select(device => new SoundDevice(device)).ToList();
+        public ICollection<SoundDevice> GetAllDevices() => _audioController.GetDevices(DeviceType.Playback).Select(device => new SoundDevice(device)).ToList();
         public void SetDefaultDevice(string deviceId) => GetInitialDevice(deviceId).SetAsDefault();
         private CoreAudioDevice GetInitialDevice(string deviceId) => _audioController.GetDevice(new System.Guid(deviceId));
     }
