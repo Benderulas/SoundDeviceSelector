@@ -27,6 +27,11 @@ namespace SoundDeviceSelector.src
         public bool DeviceTracked(string deviceId) => _tracked_ids.Contains(deviceId);
         private List<string> ReadFormFile()
         {
+            if (!File.Exists(_filePath))
+            {
+                File.Create(_filePath).Close();
+            }
+
             List<string> trackedIds = [];
             using (var fileStream = new StreamReader(_filePath))
             {
